@@ -33,7 +33,7 @@ mysql_conn * mysql_new_connection()
 
 	//连接到mysql服务端
 	if(mysql_real_connect(&conn->conn,pool_mysql.host,pool_mysql.username,
-		pool_mysql.password,pool_mysql.database,pool_mysql.s_port,NULL,
+		pool_mysql.password,pool_mysql.database,pool_mysql.port,NULL,
 		CLIENT_MULTI_STATEMENTS) == NULL)
 	{
 		printf("can not connect mysql server[errno = %d]:[%s]\n",mysql_errno(&conn->conn),mysql_error(&conn->conn));
@@ -94,7 +94,7 @@ void mysql_pool_init()
 	strncpy(pool_mysql.password,"root",sizeof(pool_mysql.password));
 	strncpy(pool_mysql.database,"testdb",sizeof(pool_mysql.database));
 
-	pool_mysql.s_port = 3306;
+	pool_mysql.port = 3306;
 	pool_mysql.max_connections = MAX_KEEP_CONNECTIONS;
 	pool_mysql.free_connections = 0;
 	pool_mysql.mysql_list = NULL;
@@ -104,7 +104,7 @@ void mysql_pool_init()
 	pthread_cond_init(&pool_mysql.idle_signal,NULL);
 	pthread_mutex_lock(&pool_mysql.lock);
 
-	for (int i = 0; i < pool_mysql.max_connections; ++i)    //初始化时即创建最多的mysql连接
+	for (int i = 0; i < pool_mysql.min_connections; ++i)    //初始化时创建几个连接并加入池中
 	{
 		conn = mysql_new_connection();
 		if (conn)

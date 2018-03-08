@@ -20,8 +20,9 @@ typedef struct mysql_pool    //定义mysql连接池结构
 	char username[32];		//用户名
 	char password[32];		//密码
 	char database[32];		//默认数据库
-	int s_port;				//端口号 默认3306
-	int max_connections;	//允许mysql的最大连接数
+	int port;				//端口号 默认3306
+	int min_connections;	//最小连接数
+	int max_connections;	//最大连接数
 	int free_connections;	//保持空闲的最大连接数
 	int is_idle_block;		//是否开启无可用连接阻塞
 	pthread_mutex_t lock;	//mysql链表锁
