@@ -6,15 +6,16 @@
 #include <pthread.h>
 #define MAX_KEEP_CONNECTIONS 4
 
-typedef struct mysql_conn     //定义mysql连接链表结构
+//定义mysql连接链表结构
+typedef struct mysql_conn     
 {
-	struct mysql_conn * next;   //定义时加了*的为指针变量
-	struct mysql_conn * prev;
+	struct mysql_conn * next;   //下一个连接的指针
+	struct mysql_conn * prev;   //上一个的指针
 	MYSQL conn;
 } mysql_conn;    //相当于typedef struct mysql_conn mysql_conn;  第一个mysql_conn为类型，第二个为变量名
 
-
-typedef struct mysql_pool    //定义mysql连接池结构
+//定义mysql连接池结构
+typedef struct mysql_pool    
 {
 	char host[64];			//主机名
 	char username[32];		//用户名
